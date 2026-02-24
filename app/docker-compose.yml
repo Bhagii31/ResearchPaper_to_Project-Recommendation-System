@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: ../backend
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
+      LLM_MODEL: gpt-4.1-mini
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ../Frontend
+      args:
+        NEXT_PUBLIC_API_BASE: http://localhost:8000
+    environment:
+      NEXT_PUBLIC_API_BASE: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
