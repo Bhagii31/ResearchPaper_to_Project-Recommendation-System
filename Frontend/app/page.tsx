@@ -279,25 +279,30 @@ export default function Page() {
         minHeight: "100vh",
         color: "white",
         fontFamily: "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial",
-        background: `
-          radial-gradient(900px 520px at 18% 12%, rgba(140,120,255,0.35), transparent 60%),
-          radial-gradient(820px 480px at 88% 20%, rgba(0,220,255,0.22), transparent 60%),
-          radial-gradient(700px 520px at 40% 95%, rgba(255,120,180,0.16), transparent 55%),
-          linear-gradient(180deg, rgba(255,255,255,0.06), transparent 35%),
-          #0b0b10
-        `,
+        background:
+          "radial-gradient(900px 520px at 18% 12%, rgba(140,120,255,0.35), transparent 60%)," +
+          "radial-gradient(820px 480px at 88% 20%, rgba(0,220,255,0.22), transparent 60%)," +
+          "radial-gradient(700px 520px at 40% 95%, rgba(255,120,180,0.16), transparent 55%)," +
+          "linear-gradient(180deg, rgba(255,255,255,0.06), transparent 35%)," +
+          "#0b0b10",
       }}
     >
       <div style={{ maxWidth: 1120, margin: "0 auto", padding: "38px 16px 64px" }}>
-       
+        {/* Hero */}
+        <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+            <Pill>LLM-powered</Pill>
+            <Pill>Beginner-friendly</Pill>
+            <Pill>Paper → Projects</Pill>
+          </div>
 
           <h1 style={{ fontSize: 38, lineHeight: 1.05, margin: 0, fontWeight: 1000, letterSpacing: -0.8 }}>
-            Paper2Project
+            Paper-to-Project Recommendation Engine
           </h1>
 
           <p style={{ margin: 0, opacity: 0.88, maxWidth: 820, lineHeight: 1.55 }}>
-            Upload a research paper PDF or paste a paper link. Get a 3–4 sentence summary, extracted technologies,
-            beginner-friendly end-to-end project ideas, datasets, and YouTube resources.
+            Upload a research paper PDF or paste any public link. Get a 3–4 sentence summary, extracted technologies,
+            beginner-friendly project ideas, dataset links, and YouTube resources.
           </p>
         </div>
 
@@ -331,12 +336,12 @@ export default function Page() {
             </div>
           </Card>
 
-          <Card title="Paper link" subtitle="arXiv abs links + direct PDF URLs">
+          <Card title="Paste link" subtitle="Any public URL (paper page or PDF link)">
             <div style={{ display: "grid", gap: 12 }}>
               <input
                 value={paperUrl}
                 onChange={(e) => setPaperUrl(e.target.value)}
-                placeholder="https://arxiv.org/abs/XXXX.XXXXX or direct PDF URL"
+                placeholder="Paste a link (arXiv, publisher page, blog post, direct PDF URL...)"
                 style={{
                   width: "100%",
                   padding: "12px 12px",
@@ -353,7 +358,7 @@ export default function Page() {
               </Button>
 
               <div style={{ fontSize: 12, opacity: 0.78 }}>
-                Tip: If a paper is scanned (image-only), use an arXiv link or a text-based PDF.
+                Note: Paywalled pages may only provide abstract/limited text. Best results from arXiv or open-access pages.
               </div>
             </div>
           </Card>
@@ -436,9 +441,15 @@ export default function Page() {
                         </div>
 
                         <div style={{ opacity: 0.92, lineHeight: 1.55 }}>
-                          <div><b>Baseline:</b> {p.baseline_model}</div>
-                          <div style={{ marginTop: 8 }}><b>Metrics:</b> {p.metrics.join(", ")}</div>
-                          <div style={{ marginTop: 8 }}><b>Stack:</b> {p.suggested_stack.join(", ")}</div>
+                          <div>
+                            <b>Baseline:</b> {p.baseline_model}
+                          </div>
+                          <div style={{ marginTop: 8 }}>
+                            <b>Metrics:</b> {p.metrics.join(", ")}
+                          </div>
+                          <div style={{ marginTop: 8 }}>
+                            <b>Stack:</b> {p.suggested_stack.join(", ")}
+                          </div>
                         </div>
                       </div>
                     </details>
@@ -448,7 +459,7 @@ export default function Page() {
             </div>
 
             <div style={{ display: "grid", gap: 14 }}>
-              <Card title="Datasets" subtitle="HF + PapersWithCode">
+              <Card title="Datasets" subtitle="Hugging Face + PapersWithCode">
                 {out.datasets.length === 0 ? (
                   <div style={{ opacity: 0.85 }}>No datasets found.</div>
                 ) : (
@@ -476,7 +487,7 @@ export default function Page() {
                 )}
               </Card>
 
-              <Card title="YouTube resources" subtitle="Watch directly in-app">
+              <Card title="YouTube resources" subtitle="Click to watch in-app">
                 {youtubeCards.length === 0 ? (
                   <div style={{ opacity: 0.85 }}>No YouTube results.</div>
                 ) : (
@@ -485,7 +496,7 @@ export default function Page() {
                       <button
                         key={i}
                         onClick={() => {
-                          setActiveVideoId(v.videoId);
+                          setActiveVideoId((v as any).videoId);
                           setActiveVideoTitle(v.title);
                         }}
                         style={{
@@ -517,10 +528,10 @@ export default function Page() {
                                   fontSize: 12,
                                   opacity: 0.72,
                                   lineHeight: 1.35,
-                                  display: "-webkit-box",
-                                  WebkitLineClamp: 2,
-                                  WebkitBoxOrient: "vertical",
                                   overflow: "hidden",
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: 2 as any,
+                                  WebkitBoxOrient: "vertical" as any,
                                 }}
                               >
                                 {v.extra.description}
